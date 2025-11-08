@@ -39,5 +39,8 @@ models:
   my_new_project:
     # Applies to all files under models/example/
     example:
+    mart:
       +materialized: table
+    finance:
+      +schema: finance_day.sql
       
