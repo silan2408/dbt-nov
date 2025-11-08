@@ -1,0 +1,11 @@
+my_profile_name:
+  target: default
+  outputs:
+    default:
+      type: bigquery
+      method: service-account
+      project: valued-context-474807-t7
+      dataset: dbt_sk_test
+      location: EU
+      threads: 4
+      keyfile: path/to/your/keyfile.json
