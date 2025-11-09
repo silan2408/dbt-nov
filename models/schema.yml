@@ -8,7 +8,6 @@ sources:
       - name: sales
         identifier: raw_gz_sales
         description: sales of Greenweez / one row per product_id per orders_id
-        # Freshness testing
         loaded_at_field: "CAST(date_date AS TIMESTAMP)"
         freshness:
           warn_after:
@@ -27,10 +26,9 @@ sources:
             description: the quantity of products purchased for a given order
         tests:
           - dbt_utils.unique_combination_of_columns:
-              arguments:
-                combination_of_columns:
-                  - orders_id
-                  - pdt_id
+              combination_of_columns:
+                - orders_id
+                - pdt_id
 
       - name: product
         identifier: raw_gz_product
@@ -59,3 +57,52 @@ sources:
             description: the cost of preparing the parcel in the distribution centre/warehouse
           - name: ship_cost
             description: shipping cost paid by Greenweez to the carrier/logistics provider
+
+      - name: facebook
+        identifier: raw_gz_facebook
+        description: facebook data for Greenweez orders
+        tests:
+          - dbt_utils.unique_combination_of_columns:
+              combination_of_columns:
+                - campaign_key
+                - date_date
+
+      - name: adwords
+        identifier: raw_gz_adwords
+        description: adwords data for Greenweez orders
+        tests:
+          - dbt_utils.unique_combination_of_columns:
+              combination_of_columns:
+                - campaign_key
+                - date_date
+
+      - name: criteo
+        identifier: raw_gz_criteo
+        description: criteo data for Greenweez orders
+        tests:
+          - dbt_utils.unique_combination_of_columns:
+              combination_of_columns:
+                - campaign_key
+                - date_date
+
+      - name: bing
+        identifier: raw_gz_bing
+        description: bing data for Greenweez orders
+        tests:
+          - dbt_utils.unique_combination_of_columns:
+              combination_of_columns:
+                - campaign_key
+                - date_date
+
+models:
+  - name: finance_campaigns_day
+    description: global kpi
+    columns:
+      - name: ads_margin
+        description: operational_margin - ads_cost
+        tests:
+          - not_null
+      - name: average_basket
+        description: her gün için ortalama sepet tutarı
+        tests:
+          - not_null
